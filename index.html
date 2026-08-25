@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2563eb">
+  <title>EduBridge | Learn Without Limits</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="brand">🌉 EduBridge</div>
+  <p>Learn without limits.</p>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Bridge your learning gaps.</h1>
+    <p>Take a quick diagnostic test, get personalised lessons, practise offline and track your progress.</p>
+    <button onclick="startDiagnostic()">Start Diagnostic Test</button>
+  </section>
+
+  <section id="dashboard" class="grid">
+    <article class="card">
+      <h2>📊 Your Progress</h2>
+      <div class="progress"><div id="progressBar"></div></div>
+      <p id="progressText">0% completed</p>
+      <div id="stats"></div>
+    </article>
+    <article class="card">
+      <h2>🎯 Recommended</h2>
+      <div id="recommendation">Take the diagnostic test to receive a recommendation.</div>
+    </article>
+  </section>
+
+  <section id="diagnostic" class="card hidden">
+    <h2>Diagnostic Test</h2>
+    <p id="question"></p>
+    <div id="answers"></div>
+    <p id="testProgress"></p>
+  </section>
+
+  <section id="lesson" class="card hidden">
+    <h2 id="lessonTitle">Your Personalised Lesson</h2>
+    <p id="lessonText"></p>
+    <div class="tip">💡 Tip: Read the explanation, then complete the practice quiz.</div>
+    <button onclick="startQuiz()">Start Practice Quiz</button>
+  </section>
+
+  <section id="quiz" class="card hidden">
+    <h2>Practice Quiz</h2>
+    <p id="quizQuestion"></p>
+    <div id="quizAnswers"></div>
+  </section>
+
+  <section class="card">
+    <h2>📚 Available Subjects</h2>
+    <div class="subjects">
+      <span>Mathematics</span><span>Science</span><span>English</span><span>Digital Skills</span>
+    </div>
+    <p class="offline">🟢 Offline-first demo: your progress is stored on this device.</p>
+  </section>
+</main>
+
+<footer>EduBridge © 2026 — Bridging learners to better education.</footer>
+<script src="app.js"></script>
+</body>
+</html>

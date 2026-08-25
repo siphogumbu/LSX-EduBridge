@@ -1,0 +1,9 @@
+{
+  "name":"EduBridge",
+  "short_name":"EduBridge",
+  "start_url":"./index.html",
+  "display":"standalone",
+  "background_color":"#f4f7fb",
+  "theme_color":"#2563eb",
+  "description":"Offline-first learning gap support app."
+}
