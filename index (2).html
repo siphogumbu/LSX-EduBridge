@@ -1,0 +1,1129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102a43">
+<title>LSXEduBridge | LSX EFFECT</title>
+<style>
+:root{--navy:#102a43;--blue:#2563eb;--sky:#eaf2ff;--ink:#172033;--muted:#64748b;--line:#dfe7f0;--bg:#f6f9fc;--white:#fff;--green:#16a34a;--amber:#d97706;--red:#dc2626}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+button,input,select{font:inherit}.top{height:64px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:20}.brand{display:flex;align-items:center;gap:10px;font-weight:900}.mark{width:34px;height:34px;border-radius:9px;background:#3b82f6;display:grid;place-items:center}.offline{font-size:12px;background:#164e63;padding:7px 10px;border-radius:999px}
+.layout{display:grid;grid-template-columns:230px 1fr;min-height:calc(100vh - 64px)}aside{background:#fff;border-right:1px solid var(--line);padding:18px 12px}.navbtn{width:100%;text-align:left;background:transparent;border:0;padding:12px 13px;border-radius:10px;cursor:pointer;font-weight:700;color:#40536b;margin:3px 0}.navbtn.active,.navbtn:hover{background:var(--sky);color:var(--blue)}main{max-width:1250px;width:100%;padding:28px;margin:auto}.page{display:none}.page.active{display:block}.eyebrow{color:var(--blue);font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.08em}.hero{background:linear-gradient(120deg,#102a43,#2563eb);color:#fff;border-radius:22px;padding:34px;display:flex;justify-content:space-between;gap:30px;align-items:center;box-shadow:0 12px 30px #102a4318}.hero h1{font-size:38px;line-height:1.08;margin:8px 0 12px}.hero p{max-width:700px;line-height:1.6;color:#e5efff}.heroArt{font-size:74px;min-width:180px;text-align:center}.btn{border:0;border-radius:10px;padding:12px 16px;font-weight:800;cursor:pointer}.primary{background:#fff;color:var(--blue)}.blue{background:var(--blue);color:#fff}.ghost{background:#edf3fa;color:var(--navy)}.ghost:disabled{opacity:.5;cursor:not-allowed}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:18px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:19px;box-shadow:0 4px 18px #102a4308}.card h2,.card h3{margin-top:0}.muted{color:var(--muted)}.stat{font-size:31px;font-weight:900}.label{font-size:13px;color:var(--muted)}.pill{display:inline-block;font-size:11px;font-weight:800;border-radius:999px;padding:5px 9px;background:#e8f0ff;color:#1d4ed8}.green{background:#dcfce7;color:#166534}.amber{background:#fef3c7;color:#92400e}.red{background:#fee2e2;color:#991b1b}.bar{height:10px;background:#e9eef5;border-radius:20px;overflow:hidden}.bar>span{display:block;height:100%;background:var(--blue);transition:width .4s ease}.row{display:flex;justify-content:space-between;align-items:center;gap:15px}.lesson{padding:14px;border:1px solid var(--line);border-radius:12px;margin:9px 0;background:#fff}.question{font-size:22px;font-weight:800;line-height:1.35;margin:10px 0}.choice{display:block;width:100%;text-align:left;padding:14px;border:1px solid var(--line);background:#fff;border-radius:11px;margin:9px 0;cursor:pointer;transition:all .15s}.choice:hover{border-color:var(--blue);background:var(--sky)}.choice.correct{border-color:var(--green);background:#ecfdf5;font-weight:800}.choice.wrong{border-color:var(--red);background:#fef2f2}.choice:disabled{cursor:default}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:12px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}.notice{padding:13px;border-radius:11px;background:#eff6ff;color:#1e40af}.footer{text-align:center;color:var(--muted);font-size:12px;padding:35px}.hide{display:none!important}.prog-text{font-size:12px;color:var(--muted);margin-top:6px}
+.phone-wrap{display:grid;grid-template-columns:320px 1fr;gap:22px;align-items:start}
+@media(max-width:900px){.phone-wrap{grid-template-columns:1fr}}
+.phone{background:#111827;border-radius:28px;padding:18px 16px 22px;box-shadow:0 18px 40px #00000033;color:#e5e7eb;font-family:"Courier New",monospace;max-width:340px}
+.phone .speaker{width:60px;height:6px;background:#374151;border-radius:3px;margin:0 auto 12px}
+.phone .screen{background:#0b3d1a;color:#a7f3d0;border-radius:10px;padding:14px;min-height:210px;font-size:14px;line-height:1.5;white-space:pre-wrap;border:2px inset #065f46}
+.phone .keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.phone .key{background:#1f2937;border:1px solid #374151;color:#e5e7eb;border-radius:8px;padding:12px 0;text-align:center;cursor:pointer;font-weight:800;user-select:none}
+.phone .key:active{background:#374151}
+.phone .key.fn{font-size:11px;padding:10px 4px}
+.phone .actions{display:flex;gap:8px;margin-top:10px}
+.phone .actions button{flex:1}
+.ussd-log{background:#0f172a;color:#cbd5e1;font-family:"Courier New",monospace;font-size:12px;border-radius:12px;padding:14px;max-height:420px;overflow:auto;white-space:pre-wrap;line-height:1.55}
+.ussd-log .in{color:#93c5fd}
+.ussd-log .out{color:#86efac}
+.ussd-log .err{color:#fca5a5}
+.sim-badge{display:inline-block;background:#111827;color:#fbbf24;font-size:11px;font-weight:800;padding:4px 8px;border-radius:6px;letter-spacing:.05em}
+.stat-sub{font-size:12px;color:var(--muted);margin-top:4px}
+.login-box{max-width:420px;margin:40px auto;background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px;box-shadow:0 10px 30px #102a4310}
+.login-box input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;margin:6px 0 16px;font-size:15px}
+.login-box label{font-weight:700;font-size:14px;color:#334155}
+.login-box .btn{width:100%;margin-top:8px}
+.login-note{font-size:13px;color:var(--muted);margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
+.role-tag{font-size:11px;font-weight:800;border-radius:6px;padding:4px 8px;background:#e8f0ff;color:#1d4ed8}
+.subject-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:18px}
+.subject-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center;box-shadow:0 4px 14px #102a4308;transition:transform .15s,box-shadow .15s}
+.subject-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px #102a4318}
+.subject-icon{font-size:30px;margin-bottom:6px}
+.subject-card b{display:block;font-size:14px;color:var(--ink);margin-top:2px}
+.subject-card span{font-size:12px;color:var(--muted)}
+.home-features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:18px}
+.feature{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:0 4px 18px #102a4308}
+.feature .ico{font-size:26px;margin-bottom:8px}
+.feature h3{margin:0 0 6px}
+.feature p{margin:0;font-size:14px;color:var(--muted);line-height:1.5}
+.step-flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:18px}
+.step{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;position:relative;box-shadow:0 4px 18px #102a4308}
+.step .num{width:30px;height:30px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:900;font-size:14px;margin-bottom:10px}
+.step h4{margin:0 0 6px;font-size:15px}
+.step p{margin:0;font-size:13px;color:var(--muted);line-height:1.5}
+@media(max-width:800px){.layout{grid-template-columns:1fr}aside{position:sticky;top:64px;z-index:10;border-right:0;border-bottom:1px solid var(--line);display:flex;overflow-x:auto;padding:8px;gap:4px}.navbtn{min-width:max-content;width:auto}.hero{padding:24px}.hero h1{font-size:29px}.heroArt{display:none}main{padding:18px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="brand"><div class="mark">L</div>LSXEduBridge</div><div class="offline" id="network">● Offline-first mode</div></header>
+<div class="layout">
+<aside>
+<button class="navbtn active" data-page="home">Home</button>
+<button class="navbtn" data-page="learner">Learner Mode</button>
+<button class="navbtn" data-page="diagnostic">Adaptive Diagnostic</button>
+<button class="navbtn" data-page="library">Learning Library</button>
+<button class="navbtn" data-page="teacher">Teacher Dashboard</button>
+<button class="navbtn" data-page="ussd">USSD / SMS Fallback</button>
+<button class="navbtn" data-page="sync">Sync Centre</button>
+<button class="navbtn" data-page="architecture">Architecture</button>
+</aside>
+<main>
+
+<!-- ============ HOME PAGE ============ -->
+<section id="home" class="page active">
+<div class="hero">
+  <div>
+    <div class="eyebrow">LSX EFFECT • TRL 3</div>
+    <h1>Know the gap. Close the gap.</h1>
+    <p>LSXEduBridge is an offline-first personalised learning platform for South African high school learners. Diagnose your learning gaps, practise without data, and let your teacher see where support is needed — all from your phone.</p>
+    <button class="btn primary" onclick="go('learnerLogin')">Start learning</button>
+    <button class="btn ghost" style="margin-left:8px;background:#ffffff22;color:#fff" onclick="go('teacherLogin')">Teacher sign in</button>
+  </div>
+  <div class="heroArt">◎</div>
+</div>
+
+<div class="home-features">
+  <div class="feature"><div class="ico">🎯</div><h3>Find your exact gap</h3><p>A short adaptive diagnostic pinpoints the topics you need to revise — not just the subject.</p></div>
+  <div class="feature"><div class="ico">📴</div><h3>Works without data</h3><p>Lessons and progress are stored on your device. Connectivity is only used to sync, never to learn.</p></div>
+  <div class="feature"><div class="ico">🔒</div><h3>Private &amp; secure</h3><p>Learners log in with their ID number and a personal PIN. Only you and your teacher can see your results.</p></div>
+  <div class="feature"><div class="ico">👩‍🏫</div><h3>Teacher insight</h3><p>Teachers see class-wide gap patterns and can target the next lesson where it matters most.</p></div>
+</div>
+
+<h2 style="margin-top:34px">Subjects we cover</h2>
+<p class="muted">Aligned to the South African CAPS curriculum for Grades 8–12. More subjects and topics are added regularly.</p>
+<div class="subject-grid" id="homeSubjects"></div>
+
+<h2 style="margin-top:34px">How it works</h2>
+<div class="step-flow">
+  <div class="step"><div class="num">1</div><h4>Log in</h4><p>Use your ID number and create a PIN. Your progress stays private to you and your teacher.</p></div>
+  <div class="step"><div class="num">2</div><h4>Diagnose</h4><p>Take a short adaptive quiz. The system finds the exact topics you struggle with.</p></div>
+  <div class="step"><div class="num">3</div><h4>Practise offline</h4><p>Work through bite-sized lessons on your device — no data required.</p></div>
+  <div class="step"><div class="num">4</div><h4>Sync &amp; improve</h4><p>When you have Wi-Fi, your progress syncs and your teacher sees where to help.</p></div>
+</div>
+
+<div class="card" style="margin-top:34px;background:linear-gradient(120deg,#102a43,#2563eb);color:#fff;border:0">
+  <div class="row">
+    <div>
+      <h2 style="color:#fff;margin-bottom:6px">Ready to close the gap?</h2>
+      <p style="color:#dbeafe;margin:0">Free for learners. No data needed to start.</p>
+    </div>
+    <button class="btn primary" onclick="go('learnerLogin')">Get started</button>
+  </div>
+</div>
+</section>
+
+<!-- Learner Login Page -->
+<section id="learnerLogin" class="page">
+<div class="login-box">
+  <div class="eyebrow">Learner Access</div>
+  <h2>Sign in with your ID number</h2>
+  <p class="muted">Your progress and diagnostic results are private. Only you and your teacher can see them.</p>
+  <label>ID Number</label>
+  <input type="text" id="learnerIdInput" placeholder="e.g. 0501015800083" maxlength="13">
+  <label>PIN (4–6 digits)</label>
+  <input type="password" id="learnerPinInput" placeholder="Create or enter your PIN" maxlength="6">
+  <button class="btn blue" onclick="learnerLogin()">Log in / Register</button>
+  <div class="login-note">First time? Enter your ID and choose a PIN to create your account.</div>
+</div>
+</section>
+
+<!-- Teacher Login Page -->
+<section id="teacherLogin" class="page">
+<div class="login-box">
+  <div class="eyebrow">Teacher Access</div>
+  <h2>Teacher sign in</h2>
+  <p class="muted">Only teachers can view the full class dashboard and learner results.</p>
+  <label>Teacher ID</label>
+  <input type="text" id="teacherIdInput" placeholder="e.g. T100">
+  <label>Password</label>
+  <input type="password" id="teacherPassInput" placeholder="Enter teacher password">
+  <button class="btn blue" onclick="teacherLogin()">Log in</button>
+  <div class="login-note">Demo teacher: <b>T100</b> / <b>teach</b></div>
+</div>
+</section>
+
+<section id="learner" class="page">
+<div class="row"><div><div class="eyebrow">Learner Mode</div><h1>Welcome back, <span id="learnerNameDisplay">Learner</span></h1><p class="muted">Your learning plan is stored on this device.</p></div><span class="pill green">Offline ready</span><button class="btn ghost" onclick="learnerLogout()" style="margin-left:10px">Log out</button></div>
+<div class="grid">
+  <div class="card"><h3>Weekly progress</h3><div class="stat" id="progressStat">0%</div><div class="bar"><span id="progressBar" style="width:0%"></span></div><p class="muted prog-text" id="progressText">Complete lessons to build your progress.</p></div>
+  <div class="card"><h3>Priority gap</h3><div class="stat" id="priority" style="font-size:22px">Not diagnosed</div><p class="muted">Recommended from your diagnostic.</p></div>
+  <div class="card"><h3>Pending sync</h3><div class="stat" id="pending">0</div><p class="muted">Updates waiting for a connection.</p></div>
+</div>
+<div class="card" style="margin-top:18px"><h2>Today's practice</h2><div id="learnerPlaylist"></div></div>
+</section>
+
+<section id="diagnostic" class="page">
+<div class="card"><div class="eyebrow">Adaptive Diagnostic</div><h1>Find what you need to learn</h1><p class="muted">Answer the questions. The prototype adjusts the next topic based on your responses.</p><div id="quiz"></div></div>
+</section>
+
+<section id="library" class="page">
+<div class="row"><div><div class="eyebrow">Offline Content Library</div><h1>Learn without data</h1></div><span class="pill green">Stored locally</span></div>
+<div class="grid" id="libraryCards"></div>
+</section>
+
+<section id="teacher" class="page">
+<div class="row">
+  <div>
+    <div class="eyebrow">Teacher Dashboard</div>
+    <h1>See the class. Target the lesson.</h1>
+    <p class="muted">Live class analytics built from real diagnostic + lesson activity on this device. Add demo learners below to simulate a class cohort.</p>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn ghost" onclick="seedDemoClass()">Add 30 demo learners</button>
+    <button class="btn ghost" onclick="resetAll()">Reset all data</button>
+    <button class="btn ghost" onclick="teacherLogout()">Log out</button>
+  </div>
+</div>
+<div class="grid" id="teacherStats"></div>
+<div class="card" style="margin-top:18px">
+  <div class="row"><h2>Class-wide gap patterns</h2><span class="muted" id="cohortSizeLabel"></span></div>
+  <table class="table">
+    <thead><tr><th>Topic</th><th>Gap rate</th><th>Priority</th><th>Suggested action</th></tr></thead>
+    <tbody id="gapTableBody"><tr><td colspan="4" class="muted">No data yet — add demo learners or complete a diagnostic.</td></tr></tbody>
+  </table>
+</div>
+<div class="card" style="margin-top:18px">
+  <h2>Learner breakdown</h2>
+  <div style="overflow:auto">
+  <table class="table">
+    <thead><tr><th>Learner</th><th>Channel</th><th>Diagnosed</th><th>Top gap</th><th>Lessons done</th><th>Last active</th></tr></thead>
+    <tbody id="learnerTableBody"><tr><td colspan="6" class="muted">No learners yet.</td></tr></tbody>
+  </table>
+  </div>
+</div>
+<div class="card" style="margin-top:18px"><h2>Teacher action</h2><p class="muted">Instead of waiting for individual reports, use the class pattern to plan the next lesson.</p><button class="btn blue" onclick="saveLessonFocus()">Save lesson focus</button> <span id="focusSaved" class="pill green hide">Saved locally</span></div>
+</section>
+
+<section id="ussd" class="page">
+<div class="eyebrow">USSD / SMS Fallback</div>
+<h1>Reach learners without data</h1>
+<p class="muted">This is a working simulation of the USSD gateway. Type a menu number or tap the keypad, press <b>Send</b>, and the session responds like a real carrier USSD string (e.g. <code>*120*456#</code>). Anything submitted here is written into the same local progress store the rest of the app uses.</p>
+<div class="phone-wrap">
+  <div>
+    <div class="phone">
+      <div class="speaker"></div>
+      <div class="screen" id="ussdScreen">LSXEduBridge
+Dial *120*456# to start</div>
+      <div class="keypad" id="keypad"></div>
+      <div class="actions">
+        <button class="btn" style="background:#16a34a;color:#fff" onclick="ussdSend()">Send</button>
+        <button class="btn ghost" onclick="ussdClear()">Clear</button>
+        <button class="btn ghost" onclick="ussdEnd()">End</button>
+      </div>
+    </div>
+    <div class="notice" style="margin-top:16px">
+      <b>Try this flow:</b>
+      <ol style="margin:8px 0 0 18px;padding:0">
+        <li>Tap <code>*120*456#</code> → Send</li>
+        <li>Choose <b>1</b> (Register) → enter learner ID <code>0501015800083</code></li>
+        <li>Choose <b>2</b> (Practise) → pick a topic number → answer <b>1–4</b></li>
+        <li>Choose <b>3</b> (My progress) → sends a summary SMS</li>
+      </ol>
+    </div>
+  </div>
+  <div>
+    <div class="row"><h2>Gateway activity log</h2><span class="sim-badge">SIMULATED</span></div>
+    <div class="ussd-log" id="ussdLog">— gateway ready —</div>
+    <div class="row" style="margin-top:14px">
+      <span class="muted" id="sessionInfo">Session: none</span>
+      <button class="btn ghost" onclick="clearUssdLog()">Clear log</button>
+    </div>
+  </div>
+</div>
+</section>
+
+<section id="sync" class="page">
+<div class="eyebrow">Sync Centre</div><h1>Connect when possible</h1><div class="card"><div id="syncBox" class="notice">Core learning is available offline. Progress is queued locally.</div><br><button class="btn blue" onclick="syncNow()">Simulate school Wi-Fi sync</button> <button class="btn ghost" onclick="addPending()">Add offline activity</button><h3 style="margin-top:22px">Fallback pathway</h3><p class="muted">For basic phones, the concept supports a lightweight USSD/SMS summary. This prototype has a <b>working USSD simulator</b> — open the <a href="#" onclick="go('ussd');return false;">USSD / SMS Fallback</a> page to run a session.</p></div>
+</section>
+
+<section id="architecture" class="page">
+<div class="eyebrow">Architecture</div><h1>Offline-first by design</h1>
+<div class="grid"><div class="card"><h2>01 • Client layer</h2><ul><li>Android app optimised for low-spec devices</li><li>On-device adaptive diagnostic engine</li><li>Local SQLite content and progress store</li></ul></div><div class="card"><h2>02 • Sync layer</h2><ul><li>Background delta sync over Wi-Fi</li><li>USSD/SMS summary fallback concept</li><li>Conflict resolution after offline periods</li></ul></div><div class="card"><h2>03 • Backend &amp; content</h2><ul><li>Cloud API and analytics database</li><li>Curriculum-tagged content repository</li><li>Teacher/school web dashboard</li></ul></div></div>
+<div class="card" style="margin-top:18px"><h2>Design principle</h2><div class="notice"><b>Every core learning function works with zero connectivity.</b> The network is used to synchronise, never to gate access.</div></div>
+<div class="card" style="margin-top:18px"><h2>TRL 3 → TRL 4–5 roadmap</h2><div class="lesson"><b>Current:</b> simulated adaptive engine, offline storage/sync proof, early usability walkthroughs.</div><div class="lesson"><b>Next:</b> classroom pilot, wider low-cost device testing, curriculum alignment with subject specialists.</div></div>
+</section>
+<div class="footer">LSX EFFECT • LSXEduBridge • Experimental Proof of Concept • Not yet validated in a real classroom</div>
+</main></div>
+
+<script>
+/* =========================================================
+   DATA MODEL (localStorage keys prefixed lsx.)
+   ========================================================= */
+const TOPICS = ["Fractions","Algebraic equations","Graphs","Trigonometry","Geometry","Probability","Statistics","Financial maths","Algebraic expressions","Equations & inequalities","Patterns & sequences","Functions","Differential calculus"];
+
+/* CAPS subject grouping for the homepage highlight */
+const CAPS_SUBJECTS = [
+  { name:"Mathematics",          icon:"📐", topics:"13 topics", note:"Gr 8–12" },
+  { name:"Mathematical Literacy",icon:"🧮", topics:"9 topics",  note:"Gr 10–12" },
+  { name:"Physical Sciences",    icon:"🔬", topics:"8 topics",  note:"Gr 10–12" },
+  { name:"Life Sciences",        icon:"🧬", topics:"7 topics",  note:"Gr 10–12" },
+  { name:"Accounting",           icon:"📊", topics:"6 topics",  note:"Gr 10–12" },
+  { name:"Business Studies",     icon:"💼", topics:"6 topics",  note:"Gr 10–12" },
+  { name:"Economics",            icon:"📈", topics:"5 topics",  note:"Gr 10–12" },
+  { name:"Geography",            icon:"🌍", topics:"6 topics",  note:"Gr 10–12" },
+  { name:"History",              icon:"📜", topics:"5 topics",  note:"Gr 10–12" },
+  { name:"English",              icon:"📖", topics:"6 topics",  note:"Gr 8–12" },
+  { name:"Afrikaans",            icon:"🗣️", topics:"5 topics",  note:"Gr 8–12" },
+  { name:"isiZulu",              icon:"🗣️", topics:"5 topics",  note:"Gr 8–12" },
+  { name:"Information Technology",icon:"💻", topics:"5 topics", note:"Gr 10–12" },
+  { name:"Life Orientation",     icon:"🧭", topics:"4 topics",  note:"Gr 8–12" }
+];
+
+const bank = [
+  {q:"What is 1/2 + 1/4?",                    topic:"Fractions",             a:["2/6","3/4","1/8","1/2"],  c:1},
+  {q:"Solve: 3x = 12",                        topic:"Algebraic equations",   a:["3","4","9","36"],         c:1},
+  {q:"What is 2/3 of 12?",                    topic:"Fractions",             a:["6","8","9","10"],         c:1},
+  {q:"If y = 2x + 1, what is y when x = 3?",  topic:"Graphs",                a:["5","6","7","8"],          c:2},
+  {q:"Solve: x + 7 = 15",                     topic:"Algebraic equations",   a:["6","7","8","9"],          c:2},
+  {q:"Which fraction is equivalent to 1/2?",  topic:"Fractions",             a:["2/3","2/4","3/5","4/6"],  c:1},
+  {q:"What is the gradient of y = 3x + 2?",   topic:"Graphs",                a:["2","3","5","6"],          c:1},
+  {q:"What is sin 30°?",                      topic:"Trigonometry",          a:["0.5","1","0.866","0.707"], c:0},
+  {q:"Area of a circle with radius 3?",       topic:"Geometry",              a:["9π","6π","3π","12π"],      c:0},
+  {q:"Probability of rolling a 3 on a fair die?", topic:"Probability",       a:["1/6","1/3","1/2","1/4"],   c:0},
+  {q:"Mean of 2, 4, 6, 8?",                   topic:"Statistics",            a:["4","5","6","7"],          c:1},
+  {q:"Simple interest on R1000 at 10% for 2 years?", topic:"Financial maths", a:["R100","R200","R210","R220"], c:1},
+  {q:"Simplify: 2x + 3x",                     topic:"Algebraic expressions", a:["5x","6x","5x²","6x²"],    c:0},
+  {q:"Solve: 2x - 4 > 6",                     topic:"Equations & inequalities", a:["x>5","x<5","x>1","x<1"], c:0},
+  {q:"Next term: 2, 6, 18, ...?",             topic:"Patterns & sequences",  a:["36","54","48","60"],      c:1},
+  {q:"If f(x)=x², what is f(3)?",             topic:"Functions",             a:["6","9","12","3"],         c:1},
+  {q:"Derivative of x³?",                     topic:"Differential calculus", a:["3x²","x²","3x","2x³"],    c:0}
+];
+
+const lessons = {
+  "Fractions":            ["Equivalent fractions","Adding fractions","Fraction word problems"],
+  "Algebraic equations":  ["One-step equations","Two-step equations","Checking solutions"],
+  "Graphs":               ["Reading coordinates","Gradient basics","Interpreting graphs"],
+  "Trigonometry":         ["Sin, cos, tan ratios","Special angles","Solving right triangles"],
+  "Geometry":             ["Circle geometry","Area & perimeter","Similarity & congruency"],
+  "Probability":          ["Basic probability","Venn diagrams","Tree diagrams"],
+  "Statistics":           ["Mean, median, mode","Range & quartiles","Data interpretation"],
+  "Financial maths":      ["Simple interest","Compound interest","Exchange rates"],
+  "Algebraic expressions":["Simplifying","Factorising","Expanding brackets"],
+  "Equations & inequalities":["Linear equations","Quadratic equations","Inequalities"],
+  "Patterns & sequences": ["Number patterns","Arithmetic sequences","Geometric sequences"],
+  "Functions":            ["Function notation","Linear functions","Quadratic functions"],
+  "Differential calculus":["Limits","Derivatives","Applications of derivatives"],
+  "Study skills":         ["Building a revision habit","Note-taking","Exam prep"]
+};
+
+const USSD_TOPIC_QUIZ = {
+  "Fractions":            {q:"What is 1/2 + 1/4?",   a:["2/6","3/4","1/8","1/2"], c:1},
+  "Algebraic equations":  {q:"Solve: 3x = 12",       a:["3","4","9","36"],        c:1},
+  "Graphs":               {q:"Gradient of y=3x+2?",  a:["2","3","5","6"],         c:1}
+};
+
+const USSD_SHORTCODE = "*120*456#";
+
+/* ---------- Storage helpers ---------- */
+const LS = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v===null?d:JSON.parse(v);}catch(e){return d;} },
+  set(k,v){ localStorage.setItem(k, JSON.stringify(v)); },
+  del(k){ localStorage.removeItem(k); }
+};
+
+/* ---------- Auth / Session ---------- */
+function getSession(){
+  return LS.get("lsx.session", { role:null, learnerId:null, teacherId:null });
+}
+function setSession(s){
+  LS.set("lsx.session", s);
+}
+function clearSession(){
+  LS.del("lsx.session");
+}
+
+function getLearnerId(){
+  const sess = getSession();
+  return sess.learnerId || LS.get("lsx.learnerId", "L001");
+}
+function setLearnerId(id){
+  LS.set("lsx.learnerId", id);
+  const sess = getSession();
+  sess.learnerId = id;
+  setSession(sess);
+}
+function getCohort(){ return LS.get("lsx.cohort", []); }
+function saveCohort(c){ LS.set("lsx.cohort", c); }
+
+function getMyRecord(){
+  const id = getLearnerId();
+  const cohort = getCohort();
+  let me = cohort.find(l => l.id === id);
+  if(!me){
+    me = {id, name:"Learner "+id, channel:"app", diagnosed:false,
+          gaps:{}, completed:[], lastActive:Date.now(), pending:0, pin:null};
+    cohort.push(me);
+    saveCohort(cohort);
+  }
+  return me;
+}
+function updateMyRecord(patch){
+  const id = getLearnerId();
+  const cohort = getCohort();
+  let me = cohort.find(l => l.id === id);
+  if(!me){ me = getMyRecord(); }
+  Object.assign(me, patch, {lastActive: Date.now()});
+  saveCohort(cohort);
+}
+function myGaps(){ return LS.get("lsx.gaps", []); }
+function myCompleted(){ return LS.get("lsx.completed", []); }
+function myPending(){ return LS.get("lsx.pending", 0); }
+function setMyPending(n){ LS.set("lsx.pending", n); updateMyRecord({pending:n}); }
+
+/* =========================================================
+   LEARNER LOGIN / REGISTER
+   ========================================================= */
+function learnerLogin(){
+  const idInput = document.getElementById("learnerIdInput");
+  const pinInput = document.getElementById("learnerPinInput");
+  const id = idInput.value.trim();
+  const pin = pinInput.value.trim();
+
+  if(!id || id.length < 6){
+    alert("Please enter a valid South African ID number (at least 6 digits).");
+    return;
+  }
+  if(!pin || pin.length < 4 || pin.length > 6){
+    alert("PIN must be 4–6 digits.");
+    return;
+  }
+
+  const cohort = getCohort();
+  let learner = cohort.find(l => l.id === id);
+
+  if(learner){
+    if(learner.pin && learner.pin !== pin){
+      alert("Incorrect PIN. Please try again.");
+      return;
+    }
+    if(!learner.pin){
+      learner.pin = pin;
+      saveCohort(cohort);
+    }
+  } else {
+    learner = {
+      id, name:"Learner "+id, channel:"app", diagnosed:false,
+      gaps:{}, completed:[], pending:0, lastActive:Date.now(), pin
+    };
+    cohort.push(learner);
+    saveCohort(cohort);
+  }
+
+  setLearnerId(id);
+  const sess = getSession();
+  sess.role = "learner";
+  sess.learnerId = id;
+  setSession(sess);
+
+  idInput.value = "";
+  pinInput.value = "";
+
+  go("learner");
+  renderLearner();
+}
+
+function learnerLogout(){
+  clearSession();
+  go("learnerLogin");
+}
+
+/* =========================================================
+   TEACHER LOGIN
+   ========================================================= */
+function teacherLogin(){
+  const id = document.getElementById("teacherIdInput").value.trim();
+  const pass = document.getElementById("teacherPassInput").value.trim();
+
+  if(id === "T100" && pass === "teach"){
+    const sess = getSession();
+    sess.role = "teacher";
+    sess.teacherId = id;
+    setSession(sess);
+    go("teacher");
+    renderTeacher();
+  } else {
+    alert("Invalid teacher credentials. Use T100 / teach for the demo.");
+  }
+}
+
+function teacherLogout(){
+  clearSession();
+  go("teacherLogin");
+}
+
+/* =========================================================
+   ROLE-BASED ACCESS GUARD
+   ========================================================= */
+function requireRole(role){
+  const sess = getSession();
+  if(sess.role !== role){
+    if(role === "learner") go("learnerLogin");
+    else if(role === "teacher") go("teacherLogin");
+    return false;
+  }
+  return true;
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+function go(id){
+  if(id === "learner" && !requireRole("learner")) return;
+  if(id === "teacher" && !requireRole("teacher")) return;
+  if(id === "diagnostic" && !requireRole("learner")) return;
+
+  document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
+  const page = document.getElementById(id);
+  if(page) page.classList.add('active');
+  document.querySelectorAll('.navbtn').forEach(x =>
+    x.classList.toggle('active', x.dataset.page === id)
+  );
+  if(id === 'diagnostic') startQuiz();
+  if(id === 'learner')    renderLearner();
+  if(id === 'teacher')    renderTeacher();
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('.navbtn').forEach(b => b.onclick = () => go(b.dataset.page));
+
+/* =========================================================
+   DIAGNOSTIC QUIZ
+   ========================================================= */
+let qi = 0;
+let results = {};
+
+function startQuiz(){
+  if(!requireRole("learner")) return;
+  qi = 0; results = {};
+  renderQ();
+}
+function renderQ(){
+  const el = document.getElementById('quiz');
+  if(qi >= bank.length){ finish(); return; }
+  const q = bank[qi];
+  el.innerHTML = `
+    <p><b>Question ${qi+1} of ${bank.length}</b></p>
+    <div class="question">${q.q}</div>
+    ${q.a.map((x,i)=>`<button class="choice" data-i="${i}">${x}</button>`).join('')}
+  `;
+  el.querySelectorAll('.choice').forEach(btn => {
+    btn.onclick = () => answer(parseInt(btn.dataset.i,10), btn);
+  });
+}
+function answer(i, btn){
+  const q = bank[qi];
+  if(!results[q.topic]) results[q.topic] = {correct:0, total:0};
+  results[q.topic].total++;
+  if(i === q.c) results[q.topic].correct++;
+
+  document.querySelectorAll('#quiz .choice').forEach(b => {
+    b.disabled = true;
+    const idx = parseInt(b.dataset.i,10);
+    if(idx === q.c) b.classList.add('correct');
+    if(idx === i && i !== q.c) b.classList.add('wrong');
+  });
+  setTimeout(() => { qi++; renderQ(); }, 700);
+}
+function finish(){
+  const gaps = Object.entries(results)
+    .filter(([_, s]) => s.total > 0 && (s.correct / s.total) < 0.5)
+    .map(([t]) => t);
+  if(!gaps.length){
+    const weakest = Object.entries(results)
+      .sort((a,b) => (a[1].correct/a[1].total) - (b[1].correct/b[1].total))[0];
+    if(weakest) gaps.push(weakest[0]);
+    else gaps.push("Fractions");
+  }
+  LS.set("lsx.gaps", gaps);
+  LS.set("lsx.diagnosed", "1");
+  updateMyRecord({diagnosed:true, gaps:results, channel:"app"});
+
+  const summary = Object.entries(results)
+    .map(([t,s]) => `<li>${t}: <b>${s.correct}/${s.total}</b> correct</li>`)
+    .join("");
+
+  document.getElementById('quiz').innerHTML = `
+    <div class="notice">
+      <h2>Diagnosis complete</h2>
+      <p><b>Your results:</b></p>
+      <ul>${summary}</ul>
+      <p>Priority topics to practise: <b>${gaps.join(", ")}</b>.</p>
+      <button class="btn blue" onclick="go('learner')">Open my learning plan</button>
+      <button class="btn ghost" onclick="startQuiz()">Retake diagnostic</button>
+      <button class="btn ghost" onclick="go('teacher')">See teacher view</button>
+    </div>`;
+  renderLearner();
+}
+
+/* =========================================================
+   LEARNER MODE
+   ========================================================= */
+function renderLearner(){
+  if(!requireRole("learner")) return;
+  const sess = getSession();
+  const id = sess.learnerId;
+  const me = getMyRecord();
+  document.getElementById("learnerNameDisplay").textContent = me.name || id;
+
+  const gaps = myGaps();
+  document.getElementById("priority").textContent = gaps.length ? gaps[0] : "Not diagnosed yet";
+  document.getElementById("pending").textContent = myPending();
+
+  const completed = myCompleted();
+  const totalLessons = gaps.reduce((sum, g) => sum + (lessons[g] || []).length, 0);
+  const pct = totalLessons ? Math.round((completed.length / totalLessons) * 100) : 0;
+  document.getElementById("progressStat").textContent = pct + "%";
+  document.getElementById("progressBar").style.width = pct + "%";
+  document.getElementById("progressText").textContent =
+    totalLessons ? `${completed.length} of ${totalLessons} lessons completed`
+                 : "Complete a diagnostic to build your plan.";
+
+  const list = document.getElementById("learnerPlaylist");
+  if(!gaps.length){
+    list.innerHTML = `<p class="muted">Take the <b>Adaptive Diagnostic</b> first to get a personalised playlist.</p>
+      <button class="btn blue" onclick="go('diagnostic')">Start diagnostic</button>`;
+    return;
+  }
+  list.innerHTML = gaps.map(g => `
+    <div style="margin-bottom:10px">
+      <h3>${g}</h3>
+      ${(lessons[g] || ["Targeted practice"]).map(l => {
+        const done = completed.includes(g + "::" + l);
+        return `<div class="lesson row">
+          <span>${done ? "✅ " : ""}${l}</span>
+          <button class="btn ghost" ${done ? "disabled" : ""} onclick="complete('${g}','${l}',this)">
+            ${done ? "Completed" : "Practise"}
+          </button>
+        </div>`;
+      }).join("")}
+    </div>`).join("");
+}
+function complete(topic, lesson, btn){
+  const key = topic + "::" + lesson;
+  const done = myCompleted();
+  if(!done.includes(key)) done.push(key);
+  LS.set("lsx.completed", done);
+
+  const p = myPending() + 1;
+  setMyPending(p);
+
+  const id = getLearnerId();
+  const cohort = getCohort();
+  const me = cohort.find(l => l.id === id);
+  if(me){
+    me.completed = done;
+    me.pending = p;
+    me.lastActive = Date.now();
+    saveCohort(cohort);
+  }
+
+  btn.textContent = "Completed";
+  btn.disabled = true;
+  renderLearner();
+}
+
+/* =========================================================
+   SYNC CENTRE
+   ========================================================= */
+function addPending(){
+  const p = myPending() + 1;
+  setMyPending(p);
+  document.getElementById("syncBox").textContent = `${p} update(s) are queued locally.`;
+  renderLearner();
+}
+function syncNow(){
+  const p = myPending();
+  setMyPending(0);
+  document.getElementById("syncBox").innerHTML =
+    p === 0
+      ? "<b>Nothing to sync.</b> All local progress is already up to date."
+      : `<b>Sync complete.</b> ${p} update(s) uploaded over simulated school Wi-Fi.`;
+  renderLearner();
+}
+
+/* =========================================================
+   LIBRARY
+   ========================================================= */
+const libraryCards = [
+  ["Fractions",           "3 bite-sized lessons", "18 min"],
+  ["Algebraic equations", "3 bite-sized lessons", "16 min"],
+  ["Graphs",              "3 bite-sized lessons", "15 min"],
+  ["Trigonometry",        "3 bite-sized lessons", "20 min"],
+  ["Geometry",            "3 bite-sized lessons", "22 min"],
+  ["Probability",         "3 bite-sized lessons", "14 min"],
+  ["Statistics",          "3 bite-sized lessons", "16 min"],
+  ["Financial maths",     "3 bite-sized lessons", "18 min"],
+  ["Algebraic expressions","3 bite-sized lessons","15 min"],
+  ["Equations & inequalities","3 bite-sized lessons","17 min"],
+  ["Patterns & sequences","3 bite-sized lessons", "15 min"],
+  ["Functions",           "3 bite-sized lessons", "16 min"],
+  ["Differential calculus","3 bite-sized lessons","20 min"],
+  ["Study skills",        "Offline revision guide","10 min"]
+];
+document.getElementById("libraryCards").innerHTML = libraryCards.map(c => `
+  <div class="card">
+    <span class="pill green">Offline</span>
+    <h2>${c[0]}</h2>
+    <p class="muted">${c[1]}</p>
+    <b>${c[2]}</b><br><br>
+    <button class="btn blue" onclick="alert('${c[0]} content opened from local library.')">Open content</button>
+  </div>`).join("");
+
+/* Homepage subject cards */
+document.getElementById("homeSubjects").innerHTML = CAPS_SUBJECTS.map(s => `
+  <div class="subject-card">
+    <div class="subject-icon">${s.icon}</div>
+    <b>${s.name}</b>
+    <span>${s.topics} • ${s.note}</span>
+  </div>`).join("");
+
+/* =========================================================
+   TEACHER DASHBOARD (REAL DATA)
+   ========================================================= */
+function computeGapRate(topic, cohort){
+  let correct = 0, total = 0, n = 0;
+  cohort.forEach(l => {
+    const g = l.gaps?.[topic];
+    if(g && g.total > 0){
+      correct += g.correct; total += g.total; n++;
+    }
+  });
+  if(!total) return null;
+  return { rate: 1 - (correct/total), correct, total, n };
+}
+function priorityFor(rate){
+  if(rate === null) return {cls:"", label:"No data", action:"Collect diagnostic data"};
+  if(rate >= 0.6)  return {cls:"red",   label:"High",   action:"Small-group revision"};
+  if(rate >= 0.4)  return {cls:"amber", label:"Medium", action:"Targeted practice"};
+  if(rate >= 0.2)  return {cls:"",      label:"Monitor",action:"Continue practice"};
+  return             {cls:"green", label:"Strong",  action:"Stretch material"};
+}
+function timeAgo(ts){
+  const s = Math.floor((Date.now()-ts)/1000);
+  if(s < 60) return s+"s ago";
+  if(s < 3600) return Math.floor(s/60)+"m ago";
+  if(s < 86400) return Math.floor(s/3600)+"h ago";
+  return Math.floor(s/86400)+"d ago";
+}
+function renderTeacher(){
+  if(!requireRole("teacher")) return;
+  const cohort = getCohort();
+  const diagnosed = cohort.filter(l => l.diagnosed).length;
+  const totalLearners = cohort.length;
+  const active = cohort.filter(l => (l.completed?.length||0) > 0).length;
+  const offlinePct = totalLearners ? Math.round((active/totalLearners)*100) : 0;
+  const totalPending = cohort.reduce((s,l) => s + (l.pending||0), 0);
+
+  document.getElementById("teacherStats").innerHTML = `
+    <div class="card"><div class="stat">${totalLearners}</div><div class="label">Learners</div><div class="stat-sub">${diagnosed} diagnosed</div></div>
+    <div class="card"><div class="stat">${active}</div><div class="label">Active learners</div><div class="stat-sub">completed ≥1 lesson</div></div>
+    <div class="card"><div class="stat">${offlinePct}%</div><div class="label">Offline activity</div><div class="stat-sub">progress built without internet</div></div>
+    <div class="card"><div class="stat">${totalPending}</div><div class="label">Updates awaiting sync</div><div class="stat-sub">across the cohort</div></div>
+  `;
+
+  document.getElementById("cohortSizeLabel").textContent =
+    totalLearners ? `${totalLearners} learners in cohort` : "No learners yet";
+
+  const tbody = document.getElementById("gapTableBody");
+  const rows = TOPICS.map(t => {
+    const g = computeGapRate(t, cohort);
+    const p = priorityFor(g ? g.rate : null);
+    return { topic:t, rate:g?g.rate:null, n:g?g.n:0, ...p };
+  }).sort((a,b) => (b.rate||0) - (a.rate||0));
+
+  if(!cohort.length){
+    tbody.innerHTML = `<tr><td colspan="4" class="muted">No data yet — add demo learners or complete a diagnostic.</td></tr>`;
+  } else {
+    tbody.innerHTML = rows.map(r => `
+      <tr>
+        <td><b>${r.topic}</b><div class="stat-sub">${r.n} learners</div></td>
+        <td>${r.rate===null ? "—" : Math.round(r.rate*100)+"%"}</td>
+        <td><span class="pill ${r.cls}">${r.label}</span></td>
+        <td>${r.action}</td>
+      </tr>`).join("");
+  }
+
+  const ltbody = document.getElementById("learnerTableBody");
+  if(!cohort.length){
+    ltbody.innerHTML = `<tr><td colspan="6" class="muted">No learners yet.</td></tr>`;
+  } else {
+    const sorted = [...cohort].sort((a,b) => (b.lastActive||0) - (a.lastActive||0));
+    ltbody.innerHTML = sorted.map(l => {
+      let topGap = "—";
+      if(l.gaps){
+        const entries = Object.entries(l.gaps).filter(([_,v]) => v.total>0);
+        if(entries.length){
+          entries.sort((a,b) => (a[1].correct/a[1].total) - (b[1].correct/b[1].total));
+          topGap = entries[0][0];
+        }
+      }
+      const when = l.lastActive ? timeAgo(l.lastActive) : "—";
+      const ch = l.channel === "ussd"
+        ? '<span class="pill amber">USSD</span>'
+        : '<span class="pill">App</span>';
+      return `<tr>
+        <td><b>${l.name||l.id}</b><div class="stat-sub">${l.id}</div></td>
+        <td>${ch}</td>
+        <td>${l.diagnosed ? '<span class="pill green">Yes</span>' : '<span class="pill">No</span>'}</td>
+        <td>${topGap}</td>
+        <td>${(l.completed?.length||0)}</td>
+        <td>${when}</td>
+      </tr>`;
+    }).join("");
+  }
+
+  const focus = LS.get("lsx.focus", null);
+  const fp = document.getElementById("focusSaved");
+  if(focus){ fp.textContent = "Saved: " + focus; fp.classList.remove("hide"); }
+  else fp.classList.add("hide");
+}
+
+function saveLessonFocus(){
+  const cohort = getCohort();
+  const rows = TOPICS.map(t => ({ t, g: computeGapRate(t, cohort) }))
+    .filter(x => x.g)
+    .sort((a,b) => b.g.rate - a.g.rate);
+  if(!rows.length){ alert("No diagnostic data yet — add demo learners or complete the diagnostic first."); return; }
+  const focus = rows[0].t;
+  LS.set("lsx.focus", focus);
+  const fp = document.getElementById("focusSaved");
+  fp.textContent = "Saved: " + focus;
+  fp.classList.remove("hide");
+}
+
+/* ---------- Demo cohort ---------- */
+const FIRST_NAMES = ["Amahle","Bongani","Chipo","Dineo","Esi","Farai","Gugu","Hlumelo","Imani","Jabulani","Kefilwe","Lerato","Mandla","Naledi","Olwethu","Palesa","Quinton","Rudo","Sipho","Thandi","Unathi","Vusi","Wandile","Xolani","Yanga","Zanele","Anele","Buhle","Cebo","Dumi"];
+const LAST_NAMES  = ["M.","D.","K.","N.","S.","T.","B.","P.","L.","R."];
+function rndInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+
+function seedDemoClass(){
+  const cohort = getCohort();
+  const existingIds = new Set(cohort.map(l => l.id));
+  let added = 0;
+  for(let i=1; i<=30; i++){
+    const id = "L" + String(i).padStart(3,"0");
+    if(existingIds.has(id)) continue;
+    const gap = {
+      "Fractions":            { correct: rndInt(0,1), total: 2 },
+      "Algebraic equations":  { correct: rndInt(0,2), total: 2 },
+      "Graphs":               { correct: rndInt(0,2), total: 2 },
+      "Trigonometry":         { correct: rndInt(0,2), total: 2 },
+      "Geometry":             { correct: rndInt(0,2), total: 2 }
+    };
+    if(gap["Fractions"].correct === 2) gap["Fractions"].correct = 1;
+    const channel = Math.random() < 0.25 ? "ussd" : "app";
+    const name = FIRST_NAMES[(i-1) % FIRST_NAMES.length] + " " + LAST_NAMES[i % LAST_NAMES.length];
+    cohort.push({
+      id, name, channel, diagnosed:true, gaps:gap,
+      completed: Array.from({length: rndInt(0,5)}, () => {
+        const t = TOPICS[rndInt(0,TOPICS.length-1)];
+        const l = lessons[t][rndInt(0,lessons[t].length-1)];
+        return t + "::" + l;
+      }),
+      pending: rndInt(0,3),
+      lastActive: Date.now() - rndInt(0, 7*24*3600) * 1000,
+      pin: null
+    });
+    added++;
+  }
+  saveCohort(cohort);
+  renderTeacher();
+  alert(added + " demo learners added. Teacher dashboard now reflects real aggregated data.");
+}
+
+function resetAll(){
+  if(!confirm("Reset ALL local data (gaps, lessons, cohort, USSD log)?")) return;
+  ["lsx.gaps","lsx.diagnosed","lsx.completed","lsx.pending","lsx.cohort","lsx.focus","lsx.learnerId","lsx.ussdLog","lsx.session"]
+    .forEach(k => LS.del(k));
+  renderLearner(); renderTeacher(); renderUssdLog(); updateSessionInfo();
+  alert("All local data cleared.");
+}
+
+/* =========================================================
+   USSD / SMS FALLBACK SIMULATOR
+   ========================================================= */
+let ussd = {
+  state: "idle",
+  input: "",
+  screen: `LSXEduBridge\nDial ${USSD_SHORTCODE} to start`,
+  learnerId: null,
+  currentTopic: null
+};
+
+function pushUssdLog(kind, text){
+  const log = LS.get("lsx.ussdLog", []);
+  log.push({ t: Date.now(), kind, text });
+  LS.set("lsx.ussdLog", log.slice(-200));
+  renderUssdLog();
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function renderUssdLog(){
+  const el = document.getElementById("ussdLog");
+  const log = LS.get("lsx.ussdLog", []);
+  if(!log.length){ el.innerHTML = "— gateway ready —"; return; }
+  el.innerHTML = log.map(e => {
+    const cls = e.kind === "in" ? "in" : e.kind === "out" ? "out" : e.kind === "err" ? "err" : "";
+    const time = new Date(e.t).toLocaleTimeString();
+    const label = e.kind === "in" ? "→ UE " : e.kind === "out" ? "← GW " : "· ";
+    return `<div><span class="${cls}">[${time}] ${label}${escapeHtml(e.text)}</span></div>`;
+  }).join("");
+  el.scrollTop = el.scrollHeight;
+}
+function clearUssdLog(){ LS.set("lsx.ussdLog", []); renderUssdLog(); }
+
+function setUssdScreen(text){
+  ussd.screen = text;
+  document.getElementById("ussdScreen").textContent = text;
+}
+function updateSessionInfo(){
+  document.getElementById("sessionInfo").textContent =
+    `Session: ${ussd.state} • learner: ${ussd.learnerId || "none"}`;
+}
+
+/* Keypad */
+const keypad = document.getElementById("keypad");
+const KEYS = [
+  {k:"1"},{k:"2"},{k:"3"},
+  {k:"4"},{k:"5"},{k:"6"},
+  {k:"7"},{k:"8"},{k:"9"},
+  {k:"*"},{k:"0"},{k:"#"}
+];
+keypad.innerHTML = KEYS.map(x =>
+  `<div class="key ${x.k==='*'||x.k==='#'?'fn':''}" data-k="${x.k}">${x.k}</div>`
+).join("") + `
+  <div class="key fn" data-k="${USSD_SHORTCODE}" style="grid-column:span 3">${USSD_SHORTCODE}</div>
+`;
+keypad.querySelectorAll(".key").forEach(el => {
+  el.onclick = () => {
+    const k = el.dataset.k;
+    if(k === USSD_SHORTCODE){
+      ussd.input = k;
+      setUssdScreen("Dialling " + k + "…\nPress Send");
+    } else {
+      ussd.input += k;
+      setUssdScreen(ussd.screen.split("\n")[0] + "\n> " + ussd.input);
+    }
+  };
+});
+
+/* Send */
+function ussdSend(){
+  const raw = ussd.input.trim();
+  ussd.input = "";
+
+  if(ussd.state === "idle"){
+    if(raw === USSD_SHORTCODE){
+      pushUssdLog("in",  USSD_SHORTCODE);
+      const body = "CON Welcome to LSXEduBridge\n1. Register\n2. Practise\n3. My progress\n4. Help";
+      pushUssdLog("out", body);
+      ussd.state = "menu";
+      setUssdScreen(body);
+      updateSessionInfo();
+    } else {
+      pushUssdLog("err", "No session. Dial " + USSD_SHORTCODE + " to begin.");
+      setUssdScreen("No session.\nDial " + USSD_SHORTCODE + " to start");
+    }
+    return;
+  }
+
+  if(!/^[0-9]+$/.test(raw)){
+    pushUssdLog("err", "Invalid input: " + raw);
+    setUssdScreen(ussd.screen.split("\n")[0] + "\nInvalid. Try again.");
+    return;
+  }
+
+  pushUssdLog("in", raw);
+
+  if(ussd.state === "menu")                handleMenu(raw);
+  else if(ussd.state === "register_id")    handleRegisterId(raw);
+  else if(ussd.state === "practise_topic") handlePractiseTopic(raw);
+  else if(ussd.state === "practise_ans")   handlePractiseAnswer(raw);
+  else if(ussd.state === "progress_choice")handleProgressChoice(raw);
+  else if(ussd.state === "end"){
+    ussd.state = "idle";
+    setUssdScreen("Session ended.\nDial " + USSD_SHORTCODE + " to start");
+  }
+  updateSessionInfo();
+}
+
+function handleMenu(choice){
+  switch(choice){
+    case "1":
+      ussd.state = "register_id";
+      setUssdScreen("CON Enter your learner ID\n(e.g. 0501015800083)");
+      pushUssdLog("out", "CON Enter your learner ID");
+      break;
+    case "2":
+      ussd.state = "practise_topic";
+      setUssdScreen("CON Choose a topic\n1. Fractions\n2. Algebraic equations\n3. Graphs");
+      pushUssdLog("out", "CON Choose a topic:\n1.Fractions 2.Algebra 3.Graphs");
+      break;
+    case "3":
+      ussd.state = "progress_choice";
+      setUssdScreen("CON My progress\n1. View summary SMS\n2. Back to main menu");
+      pushUssdLog("out", "CON My progress:\n1.View summary 2.Back");
+      break;
+    case "4":
+      pushUssdLog("out", "END LSXEduBridge: learn offline, sync when you can. Support: 0800-LSX-EDU");
+      setUssdScreen("END Help\nSupport: 0800-LSX-EDU");
+      ussd.state = "end";
+      break;
+    default:
+      pushUssdLog("err", "Invalid menu option: " + choice);
+      setUssdScreen("CON Invalid option.\n1.Register 2.Practise 3.Progress 4.Help");
+  }
+}
+
+function handleRegisterId(raw){
+  if(raw.length < 6 || raw.length > 13){
+    pushUssdLog("err", "Learner ID must be 6–13 digits.");
+    setUssdScreen("CON Enter a valid learner ID\n(6–13 digits)");
+    return;
+  }
+  const id = raw.toUpperCase();
+  ussd.learnerId = id;
+
+  const cohort = getCohort();
+  let learner = cohort.find(l => l.id === id);
+  if(!learner){
+    learner = {id, name:"USSD Learner " + id, channel:"ussd", diagnosed:false, gaps:{}, completed:[], pending:0, lastActive:Date.now(), pin:null};
+    cohort.push(learner);
+  } else {
+    learner.channel = "ussd";
+    learner.lastActive = Date.now();
+  }
+  saveCohort(cohort);
+
+  pushUssdLog("out", "END Registered " + id + ". You will receive an SMS when content updates.");
+  setUssdScreen("END Registered " + id + "\nYou'll receive an SMS on updates.");
+  ussd.state = "end";
+  setLearnerId(id);
+}
+
+function handlePractiseTopic(raw){
+  const map = {"1":"Fractions","2":"Algebraic equations","3":"Graphs"};
+  const topic = map[raw];
+  if(!topic){
+    pushUssdLog("err", "Invalid topic choice: " + raw);
+    setUssdScreen("CON Invalid.\n1.Fractions 2.Algebra 3.Graphs");
+    return;
+  }
+  ussd.currentTopic = topic;
+  const q = USSD_TOPIC_QUIZ[topic];
+  ussd.state = "practise_ans";
+  const body = `CON ${topic}\n${q.q}\n1.${q.a[0]}\n2.${q.a[1]}\n3.${q.a[2]}\n4.${q.a[3]}`;
+  pushUssdLog("out", body.replace(/\n/g," | "));
+  setUssdScreen(body);
+}
+
+function handlePractiseAnswer(raw){
+  const idx = parseInt(raw,10) - 1;
+  const q = USSD_TOPIC_QUIZ[ussd.currentTopic];
+  if(!q || idx < 0 || idx > 3){
+    pushUssdLog("err", "Invalid answer: " + raw);
+    setUssdScreen("CON Invalid answer.\nReply 1–4");
+    return;
+  }
+  const correct = idx === q.c;
+
+  const id = ussd.learnerId || getLearnerId();
+  const cohort = getCohort();
+  let learner = cohort.find(l => l.id === id);
+  if(!learner){
+    learner = {id, name:"USSD Learner " + id, channel:"ussd", diagnosed:false, gaps:{}, completed:[], pending:0, lastActive:Date.now(), pin:null};
+    cohort.push(learner);
+  }
+  learner.channel = "ussd";
+  if(!learner.gaps[ussd.currentTopic]) learner.gaps[ussd.currentTopic] = {correct:0, total:0};
+  learner.gaps[ussd.currentTopic].total++;
+  if(correct) learner.gaps[ussd.currentTopic].correct++;
+  learner.diagnosed = true;
+  learner.pending = (learner.pending||0) + 1;
+  learner.lastActive = Date.now();
+  saveCohort(cohort);
+
+  if(id === getLearnerId()){
+    LS.set("lsx.diagnosed","1");
+    const myGaps = TOPICS.filter(t => {
+      const g = learner.gaps[t];
+      return g && g.total > 0 && (g.correct/g.total) < 0.5;
+    });
+    LS.set("lsx.gaps", myGaps.length ? myGaps : TOPICS.slice(0,1));
+    setMyPending(myPending() + 1);
+  }
+
+  const resultMsg = correct ? "Correct!" : "Not quite.";
+  pushUssdLog("out", "END " + resultMsg + " We saved your answer. Reply " + USSD_SHORTCODE + " to continue.");
+  setUssdScreen("END " + resultMsg + "\nAnswer saved offline.\nDial again to continue.");
+  ussd.state = "end";
+  ussd.currentTopic = null;
+}
+
+function handleProgressChoice(raw){
+  if(raw === "1"){
+    const id = ussd.learnerId || getLearnerId();
+    const cohort = getCohort();
+    const me = cohort.find(l => l.id === id) || getMyRecord();
+    const lines = [];
+    TOPICS.forEach(t => {
+      const g = me.gaps?.[t];
+      if(g && g.total > 0){
+        const pct = Math.round((g.correct/g.total)*100);
+        lines.push(`${t.slice(0,10)}: ${pct}%`);
+      }
+    });
+    const msg = lines.length ? lines.join(" ") : "No data yet.";
+    pushUssdLog("out", "END LSXEduBridge summary: " + msg);
+    setUssdScreen("END Progress summary\n" + msg + "\nSMS sent.");
+    ussd.state = "end";
+  } else if(raw === "2"){
+    ussd.state = "menu";
+    const body = "CON Welcome to LSXEduBridge\n1. Register\n2. Practise\n3. My progress\n4. Help";
+    pushUssdLog("out", body.replace(/\n/g," | "));
+    setUssdScreen(body);
+  } else {
+    pushUssdLog("err", "Invalid progress choice: " + raw);
+    setUssdScreen("CON Invalid.\n1.View summary 2.Back");
+  }
+}
+
+function ussdClear(){
+  ussd.input = "";
+  setUssdScreen(ussd.screen.split("\n")[0]);
+}
+function ussdEnd(){
+  pushUssdLog("in", "END");
+  pushUssdLog("out", "END Session terminated.");
+  setUssdScreen("Session ended.\nDial " + USSD_SHORTCODE + " to start");
+  ussd.state = "idle";
+  ussd.learnerId = null;
+  ussd.currentTopic = null;
+  updateSessionInfo();
+}
+
+/* =========================================================
+   NETWORK INDICATOR
+   ========================================================= */
+function updateNetwork(){
+  document.getElementById("network").textContent = navigator.onLine
+    ? "● Connection available"
+    : "● Offline-first mode";
+}
+window.addEventListener("online",  updateNetwork);
+window.addEventListener("offline", updateNetwork);
+updateNetwork();
+
+/* =========================================================
+   INIT
+   ========================================================= */
+const initSession = getSession();
+if(initSession.role === "learner"){
+  go("learner");
+} else if(initSession.role === "teacher"){
+  go("teacher");
+} else {
+  go("home");
+}
+renderUssdLog();
+updateSessionInfo();
+</script>
+</body></html>
